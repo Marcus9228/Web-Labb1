@@ -1,0 +1,40 @@
+.companyNameHeader {
+    font-family:'Courier New', Courier, monospace;
+}
+
+.product-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.fixed-top {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1030;
+}
+
+body {
+    padding-top: 60px;
+}
+
+.carousel-control-prev, .carousel-control-next {
+    width: 4%;
+}
+
+.carousel-control-prev {
+    left: -45%; 
+}
+
+.carousel-control-next {
+    right: -45%;
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+footer{
+    margin-top: auto;
+}
