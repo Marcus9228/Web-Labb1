@@ -27,24 +27,40 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="row">
-            
-        </div>
-        <div class="row">
-            <div class="col">
-                <div id="cart-container" class="text-white fw-bold"></div>
-            </div>
-            <div class="col">
-                <button id="clear-cart-btn" class="btn btn-warning">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-                        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                    </svg>
-                    Clear Cart
-                </button>
+    <section class="h-100" style="background-color: #eee;">
+    <div class="container h-100 py-5">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-10">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+                </div>
+
+                <!-- Container for dynamically displaying cart items -->
+                <div id="checkout-cart-container">
+                    <!-- Cart items will be inserted here by JavaScript -->
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body p-4 d-flex flex-row">
+                        <div class="form-outline flex-fill">
+                            <input type="text" id="form1" class="form-control form-control-lg" />
+                            <label class="form-label" for="form1">Discount code</label>
+                        </div>
+                        <button type="button" class="btn btn-outline-warning btn-lg ms-3">Apply</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <a class="btn btn-warning btn-block btn-lg" href="checkout.html">Proceed to Checkout</a>
+                        <!-- <button type="button" class="btn btn-warning btn-block btn-lg">Proceed to Checkout</button> -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+</section>
+
 
     <footer class="bg-body-tertiary text-center">
         <div class="container p-4">

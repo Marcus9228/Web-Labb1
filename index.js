@@ -150,14 +150,10 @@ function addToCart(productId) {
     const product = products.find(p => p.name === productId);
     if (product) {
         cart.push(product);
-        // Update local storage
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(cart); // For testing purposes
     }
     updateCartCount();
 }
-
-
 
 function setUniformDescriptionHeight() {
     let descriptions = document.querySelectorAll('.product-description');
@@ -174,7 +170,6 @@ function setUniformDescriptionHeight() {
     });
 }
 
-
 function displayProducts(products) {
     console.log("displayProducts called");
     let productsContainer = document.getElementById('products-container');
@@ -182,14 +177,14 @@ function displayProducts(products) {
         return;
     }
 
-    productsContainer.innerHTML = ''; // Clear existing content
+    productsContainer.innerHTML = '';
     let row = document.createElement('div');
-    row.className = 'row d-flex align-items-stretch'; // Flex container for equal height
+    row.className = 'row d-flex align-items-stretch';
     productsContainer.appendChild(row);
 
     products.forEach((product, index) => {
         let col = document.createElement('div');
-        col.className = 'col-12 col-md-6 col-lg-4 mb-4'; // Responsive grid classes
+        col.className = 'col-12 col-md-6 col-lg-4 mb-4';
 
         let priceDisplay;
         let saleIndicator = '';
@@ -224,7 +219,6 @@ function displayProducts(products) {
     attachButtonListeners();
 }
 
-
 function handleAddToCartClick() {
     addToCart(this.getAttribute('data-id'));
 }
@@ -236,7 +230,6 @@ function attachButtonListeners() {
         button.addEventListener('click', handleAddToCartClick);
     });
 }
-
 
 function displaySaleProductsInCarousel(products) {
     let carouselContainer = document.getElementById('carouselItems');
@@ -272,89 +265,33 @@ if (document.getElementById('carouselItems')) {
     displaySaleProductsInCarousel(products);
 }
 
-
-function displayCartItems() {
-    let cartContainer = document.getElementById('cart-container');
-    if (!cartContainer) {
-        return; // Exit if cart container is not found
-    }
-
-    // Load cart from local storage
-    let storedCart = localStorage.getItem('cart');
-    let cart = storedCart ? JSON.parse(storedCart) : [];
-
-    // Clear existing content
-    cartContainer.innerHTML = '';
-
-    // Display total price
-    let totalPrice = calculateCartPrice(cart);
-    let totalPriceElement = `<p>Total Price: $${totalPrice.toFixed(2)}</p>`;
-    cartContainer.innerHTML = totalPriceElement;
-
-    // Check if the cart is empty
-    if (cart.length === 0) {
-        cartContainer.innerHTML += '<p>Your cart is empty.</p>';
-        return;
-    }
-
-    // Loop through the cart and create HTML for each item
-    cart.forEach((product, index) => {
-        let item = `
-            <div class="cart-item">
-                <img src="${product.imageUrl}" alt="${product.name}" style="width:100px; height:auto;">
-                <h3>${product.name}</h3>
-                <p>Price: $${product.price}</p>
-                <button class="btn btn-danger remove-from-cart-btn" data-index="${index}">
-                    Remove from Cart
-                </button>
-            </div>
-        `;
-        cartContainer.innerHTML += item;
-    });
-
-    attachRemoveButtonListeners();
-}
-
-function attachRemoveButtonListeners() {
-    const removeButtons = document.querySelectorAll('.remove-from-cart-btn');
-    removeButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            removeFromCart(parseInt(button.getAttribute('data-index')));
-        });
-    });
-}
-
-function removeFromCart(index) {
-    // Load cart from local storage
-    let storedCart = localStorage.getItem('cart');
-    let cart = storedCart ? JSON.parse(storedCart) : [];
-
-    // Remove the item at the specified index
-    cart.splice(index, 1);
-
-    // Update local storage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Re-display the cart items
-    displayCartItems();
-    updateCartCount();
-}
-
 function clearCart() {
-    // Clear the cart array
     cart = [];
 
-    // Update local storage
     localStorage.setItem('cart', JSON.stringify(cart));
 
-    // Update the display
     displayCartItems();
     updateCartCount();
+    displayCheckoutCartItems();
 }
 
-
-
-displayCartItems();
+(function () {
+    'use strict'
+  
+    window.addEventListener('load', function () {
+      var forms = document.getElementsByClassName('needs-validation')
+  
+      Array.prototype.filter.call(forms, function (form) {
+        form.addEventListener('submit', function (event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          form.classList.add('was-validated')
+        }, false)
+      })
+    }, false)
+  }())
 
 function calculateCartPrice(cart) {
     let totalPrice = 0;
@@ -374,21 +311,155 @@ function updateCartCount() {
     }
 }
 
+function displayCartItems() {
+    let cartContainer = document.getElementById('checkout-cart-container');
+    if (!cartContainer) {
+        return;
+    }
+
+    let storedCart = localStorage.getItem('cart');
+    let cart = storedCart ? JSON.parse(storedCart) : [];
+
+    cartContainer.innerHTML = '';
+
+    if (cart.length === 0) {
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+        return;
+    }
+
+    let totalPrice = 0;
+
+    cart.forEach((product, index) => {
+        totalPrice += parseFloat(product.price);
+
+        let item = `
+            <div class="card rounded-3 mb-4">
+                <div class="card-body p-4">
+                    <div class="row d-flex justify-content-between align-items-center">
+                        <div class="col-12 col-md-3 col-lg-2">
+                            <img src="${product.imageUrl}" class="img-fluid rounded-3" alt="${product.name}">
+                        </div>
+                        <div class="col-12 col-md-6 col-lg-7">
+                            <p class="lead fw-normal mb-2">${product.name}</p>
+                            <p><span class="text-muted">Price: </span>$${product.price}</p>
+                        </div>
+                        <div class="col-12 col-md-3 col-lg-3 text-md-end text-start mt-3 mt-md-0">
+                            <h5 class="mb-0">$${product.price}</h5>
+                            <button class="btn btn-danger remove-from-cart-btn" data-index="${index}"><i class="fas fa-trash fa-lg"></i> Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        cartContainer.innerHTML += item;
+    });
+
+    cartContainer.innerHTML += `
+        <div class="card">
+            <div class="card-body">
+                <h5 class="text-end">Total: $${totalPrice.toFixed(2)}</h5>
+                <button class="btn btn-warning btn-block" id="clear-cart-btn">Clear Cart</button>
+            </div>
+        </div>
+    `;
+
+    attachRemoveButtonListeners();
+    attachClearCartButtonListener();
+}
+
+
+function attachRemoveButtonListeners() {
+    const removeButtons = document.querySelectorAll('.remove-from-cart-btn');
+    removeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            removeFromCart(parseInt(button.getAttribute('data-index')));
+        });
+    });
+}
+
+function removeFromCart(index) {
+    let storedCart = localStorage.getItem('cart');
+    let cart = storedCart ? JSON.parse(storedCart) : [];
+
+    cart.splice(index, 1);
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    displayCartItems();
+    updateCartCount();
+}
+
+function attachClearCartButtonListener() {
+    const clearCartBtn = document.getElementById('clear-cart-btn');
+    if (clearCartBtn) {
+        clearCartBtn.addEventListener('click', clearCart);
+    }
+}
+
+function displayCheckoutCartItems() {
+    let cartContainer = document.getElementById('checkout-cart-items');
+    if (!cartContainer) {
+        return;
+    }
+
+    let storedCart = localStorage.getItem('cart');
+    let cart = storedCart ? JSON.parse(storedCart) : [];
+
+    cartContainer.innerHTML = '';
+
+    if (cart.length === 0) {
+        cartContainer.innerHTML = '<li class="list-group-item">Your cart is empty.</li>';
+        return;
+    }
+
+    let totalPrice = 0;
+
+    cart.forEach((product, index) => {
+        totalPrice += parseFloat(product.price);
+
+        let item = `
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <h6 class="my-0">${product.name}</h6>
+                    <small class="text-muted">Price: $${product.price}</small>
+                </div>
+                <span class="text-muted">$${product.price}</span>
+            </li>
+        `;
+        cartContainer.innerHTML += item;
+    });
+
+    let totalPriceItem = `
+        <li class="list-group-item d-flex justify-content-between">
+            <span>Total price:</span>
+            <strong>$${totalPrice.toFixed(2)}</strong>
+        </li>
+    `;
+    cartContainer.innerHTML += totalPriceItem;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    // Load cart from local storage
     let storedCart = localStorage.getItem('cart');
     if (storedCart) {
         cart = JSON.parse(storedCart);
     }
 
-    // Display products and cart items
-    displayProducts(products);
-    displayCartItems();
+    if (typeof displayProducts === "function") {
+        displayProducts(products);
+    }
+    if (typeof displayCartItems === "function") {
+        displayCartItems();
+    }
+    if (typeof displayCheckoutCartItems === "function") {
+        displayCheckoutCartItems();
+    }
 
-    // Attach event listener to the clear cart button
     const clearCartBtn = document.getElementById('clear-cart-btn');
     if (clearCartBtn) {
         clearCartBtn.addEventListener('click', clearCart);
     }
-    updateCartCount();
+
+    if (typeof updateCartCount === "function") {
+        updateCartCount();
+    }
 });
