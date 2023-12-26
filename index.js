@@ -176,53 +176,54 @@ function setUniformDescriptionHeight() {
 
 
 function displayProducts(products) {
-    console.log("displayProducts called")
+    console.log("displayProducts called");
     let productsContainer = document.getElementById('products-container');
     if (!productsContainer) {
         return;
     }
 
-    let row;
+    productsContainer.innerHTML = ''; // Clear existing content
+    let row = document.createElement('div');
+    row.className = 'row d-flex align-items-stretch'; // Flex container for equal height
+    productsContainer.appendChild(row);
 
     products.forEach((product, index) => {
-        if (index % 3 === 0) {
-            row = document.createElement('div');
-            row.className = 'row';
-            productsContainer.appendChild(row);
-        }
+        let col = document.createElement('div');
+        col.className = 'col-12 col-md-6 col-lg-4 mb-4'; // Responsive grid classes
 
         let priceDisplay;
         let saleIndicator = '';
         
         if (product.onSale) {
-            // If the product is on sale, show original price with a line through and add a SALE indicator
             priceDisplay = `<p>Price: <span style="text-decoration: line-through;">$${product.originalPrice}</span> <span style="color: red;">$${product.price}</span></p>`;
             saleIndicator = `<div style="color: red; font-weight: bold; text-align: center;">SALE</div>`;
         } else {
-            // If the product is not on sale, show only the price
             priceDisplay = `<p>Price: $${product.price}</p>`;
         }
 
-        let col = `
-            <div class="col border border-5 border-black">
-                <img src="${product.imageUrl}" alt="${product.name}" style="width:100%; height:auto;">
-                <h3>${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <p>Genre: ${product.genre}</p>
-                <p>Platform: ${product.platform}</p>
-                <p>Release Date: ${product.releaseDate}</p>
-                ${priceDisplay}
-                <button class="btn btn-primary add-to-cart-btn" data-id="${product.name}">
-                    Add to Cart
-                </button>
-                ${saleIndicator}
-                
+        col.innerHTML = `
+            <div class="card h-100"> <!-- Card with full height -->
+                <img src="${product.imageUrl}" alt="${product.name}" class="card-img-top">
+                <div class="card-body">
+                    <h3 class="card-title">${product.name}</h3>
+                    <p class="card-text">${product.description}</p>
+                    <p>Genre: ${product.genre}</p>
+                    <p>Platform: ${product.platform}</p>
+                    <p>Release Date: ${product.releaseDate}</p>
+                    ${priceDisplay}
+                    <button class="btn btn-primary add-to-cart-btn" data-id="${product.name}">
+                        Add to Cart
+                    </button>
+                    ${saleIndicator}
+                </div>
             </div>
         `;
-        row.innerHTML += col;
+        row.appendChild(col);
     });
+
     attachButtonListeners();
 }
+
 
 function handleAddToCartClick() {
     addToCart(this.getAttribute('data-id'));
