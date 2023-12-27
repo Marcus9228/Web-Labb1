@@ -171,7 +171,6 @@ function setUniformDescriptionHeight() {
 }
 
 function displayProducts(products) {
-    console.log("displayProducts called");
     let productsContainer = document.getElementById('products-container');
     if (!productsContainer) {
         return;
