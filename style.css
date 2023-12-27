@@ -2,6 +2,14 @@
     font-family:'Courier New', Courier, monospace;
 }
 
+.company-logo-home {
+    max-height: 140px;
+}
+
+.deals-tag {
+    margin-bottom: 10px;
+}
+
 .product-description {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -16,6 +24,9 @@
 
 body {
     padding-top: 44px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .carousel-control-prev, .carousel-control-next {
@@ -42,11 +53,6 @@ body {
     font-size: larger;
 }
 
-body{
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
 footer{
     margin-top: auto;
 }

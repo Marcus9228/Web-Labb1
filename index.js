@@ -390,6 +390,10 @@ function displayCartItems() {
 
 //Disables checkout button if cart is empty
 function updateCheckoutButtonStatus() {
+    let checkoutBtn = document.getElementById('proceed-to-checkout-btn');
+    if (!checkoutBtn) {
+        return
+    }
     let cart = JSON.parse(localStorage.getItem('cart') || '[]');
     let proceedToCheckoutButton = document.getElementById('proceed-to-checkout-btn');
 
