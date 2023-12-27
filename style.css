@@ -30,6 +30,18 @@ body {
     right: -10%;
 }
 
+.carousel-price {
+    color: white;
+    font-size: larger;
+    font-weight: lighter;
+}
+
+.carousel-old-price {
+    color: black;
+    text-decoration: line-through;
+    font-size: larger;
+}
+
 body{
     min-height: 100vh;
     display: flex;
