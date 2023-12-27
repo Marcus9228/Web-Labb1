@@ -164,6 +164,7 @@ function attachButtonListeners() {
         button.addEventListener('click', handleAddToCartClick);
     });
 }
+
 function handleAddToCartClick() {
     addToCart(this.getAttribute('data-id'));
 }
@@ -237,8 +238,9 @@ function updateCartCount() {
 function displaySaleProductsInCarousel(products) {
     let carouselContainer = document.getElementById('carouselItems');
     let priceDisplay = document.getElementById('priceDisplay');
+    let addToCartButton = document.getElementById('addToCartButton'); // Get the button by its ID
 
-    if (!carouselContainer || !priceDisplay) {
+    if (!carouselContainer || !priceDisplay || !addToCartButton) {
         return;
     }
 
@@ -247,21 +249,33 @@ function displaySaleProductsInCarousel(products) {
             let carouselItem = document.createElement('div');
             carouselItem.className = 'carousel-item' + (index === 0 ? ' active' : '');
             carouselItem.innerHTML = `<img class="d-block w-100 carousel-image" src="${product.imageUrl}" alt="${product.name}">`;
-            carouselItem.dataset.price = product.price;
-            carouselItem.dataset.originalPrice = product.originalPrice;
+            carouselItem.dataset.id = product.name; // Store the product name in dataset for identification
+            carouselItem.dataset.price = product.price; // Store the product price
+            carouselItem.dataset.originalPrice = product.originalPrice; // Store the original price
             carouselContainer.appendChild(carouselItem);
         }
     });
 
-    $('#carouselExampleControls').on('slid.bs.carousel', function () {
+    // Function to update price display
+    function updatePriceDisplay() {
         let activeItem = carouselContainer.querySelector('.carousel-item.active');
-        priceDisplay.innerHTML = `<span class="carousel-price">$${activeItem.dataset.price}</span> <span <span class="carousel-old-price">$${activeItem.dataset.originalPrice}</span>`;
-    });
-
-    let initialActiveItem = carouselContainer.querySelector('.carousel-item.active');
-    if (initialActiveItem) {
-        priceDisplay.innerHTML = `<span class="carousel-price">$${initialActiveItem.dataset.price}</span> <span class="carousel-old-price">$${initialActiveItem.dataset.originalPrice}</span>`;
+        if (activeItem) {
+            priceDisplay.innerHTML = `<span class="carousel-price">$${activeItem.dataset.price}</span> <span class="carousel-old-price">$${activeItem.dataset.originalPrice}</span>`;
+        }
     }
+
+    $('#carouselExampleControls').on('slid.bs.carousel', updatePriceDisplay);
+
+    // Initial price display update
+    updatePriceDisplay();
+
+    // Add event listener to the Add to Cart button
+    addToCartButton.addEventListener('click', function() {
+        let activeItem = carouselContainer.querySelector('.carousel-item.active');
+        if (activeItem && activeItem.dataset.id) {
+            addToCart(activeItem.dataset.id);
+        }
+    });
 }
 if (document.getElementById('carouselItems')) {
     displaySaleProductsInCarousel(products);

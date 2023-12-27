@@ -1,5 +1,5 @@
 .companyNameHeader {
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .company-logo-home {
@@ -53,8 +53,30 @@ body {
     font-size: larger;
 }
 
+.carousel-btn {
+    margin-bottom: 10px;
+}
+
 footer{
     margin-top: auto;
+}
+
+.about-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.contact-container {
+    margin-bottom: 10px;
+}
+
+.store-container {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.cart-container {
+    margin-top: 10px;
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
