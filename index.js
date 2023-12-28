@@ -260,7 +260,7 @@ function displaySaleProductsInCarousel(products) {
     function updatePriceDisplay() {
         let activeItem = carouselContainer.querySelector('.carousel-item.active');
         if (activeItem) {
-            priceDisplay.innerHTML = `<span class="carousel-price">$${activeItem.dataset.price}</span> <span class="carousel-old-price">$${activeItem.dataset.originalPrice}</span>`;
+            priceDisplay.innerHTML = `<span class="carousel-price fw-bold">$${activeItem.dataset.price}</span> <span class="carousel-old-price fw-bold">$${activeItem.dataset.originalPrice}</span>`;
         }
     }
 
@@ -301,21 +301,21 @@ function displayProducts(products) {
         let saleIndicator = '';
         
         if (product.onSale) {
-            priceDisplay = `<p>Price: <span style="text-decoration: line-through;">$${product.originalPrice}</span> <span style="color: red;">$${product.price}</span></p>`;
+            priceDisplay = `<p class="fw-bold">Price: <span style="text-decoration: line-through;">$${product.originalPrice}</span> <span style="color: red;">$${product.price}</span></p>`;
             saleIndicator = `<div style="color: red; font-weight: bold; text-align: center;">SALE</div>`;
         } else {
-            priceDisplay = `<p>Price: $${product.price}</p>`;
+            priceDisplay = `<p class="fw-bold">Price: $${product.price}</p>`;
         }
 
         col.innerHTML = `
-            <div class="card h-100"> <!-- Card with full height -->
+            <div class="card h-100">
                 <img src="${product.imageUrl}" alt="${product.name}" class="card-img-top">
                 <div class="card-body">
                     <h3 class="card-title">${product.name}</h3>
                     <p class="card-text">${product.description}</p>
-                    <p>Genre: ${product.genre}</p>
-                    <p>Platform: ${product.platform}</p>
-                    <p>Release Date: ${product.releaseDate}</p>
+                    <p class="fw-bold">Genre: ${product.genre}</p>
+                    <p class="fw-bold">Platform: ${product.platform}</p>
+                    <p class="fw-bold">Release Date: ${product.releaseDate}</p>
                     ${priceDisplay}
                     <button class="btn btn-primary add-to-cart-btn" data-id="${product.name}">
                         Add to Cart
